@@ -2,41 +2,69 @@ function computerPlay() {
     const selection = Math.floor(Math.random() * 3) + 1;
     switch (selection) {
         case 1:
-            return "Rock";
+            return "rock";
         case 2:
-            return "Scissors";
+            return "scissors";
         case 3:
-            return "Paper";
+            return "paper";
     }
 }
 
 function playGame(userChoice, computerChoice = computerPlay()) {
-    console.log(evaluateWinner(userChoice, computerChoice));
+    userChoice = userChoice.toLowerCase();
+    switch (evaluateWinner(userChoice, computerChoice)) {
+        case 0:
+            console.log(`You both chose ${userChoice}, so you tied!`);
+            return 0;
+        case 1:
+            console.log(`${userChoice.charAt(0).toUpperCase()}${userChoice.slice(1)} beats ${computerChoice}, so you won!`);
+            return 1;
+        case -1:
+            console.log(`${computerChoice.charAt(0).toUpperCase()}${computerChoice.slice(1)} beats ${userChoice}, so you lost.`);
+            return -1;
+    }
 }
 
 function evaluateWinner(userChoice, computerChoice) {
+    let scoreUpdate = 0
     if (userChoice === computerChoice) {
-        return (`Tie game! You both chose ${userChoice}, so no winner.`);
+        return scoreUpdate;
     }
+    else if (userChoice === "paper" && computerChoice === "scissors") {
+        scoreUpdate = -1;
+        return scoreUpdate;
+    }
+    else if (userChoice === "rock" && computerChoice === "paper") {
+        scoreUpdate = -1;
+        return scoreUpdate;
+    }
+    else if (userChoice === "scissors" && computerChoice === "rock") {
+        scoreUpdate = -1;
+        return scoreUpdate;
+    }
+
     else {
-        if (userChoice === "Paper" && computerChoice === "Scissors") {
-            return ("Scissors beats paper! You lost.");
-        }
-        else if (userChoice === "Rock" && computerChoice === "Paper") {
-            return ("Paper beats rock! You lost.");
-        }
-        else if (userChoice === "Scissors" && computerChoice === "Rock") {
-            return ("Rock beats scissors! You lost.");
-        }
-
-        else {
-            return (`${userChoice} beats ${computerChoice}! You won.`)
-        }
+        scoreUpdate = 1;
+        return scoreUpdate;
     }
-
 }
 
-playGame("Rock");
-playGame("Paper");
-playGame("Scissors");
-playGame("Scissors");
+
+function playMatch() {
+    let scoreCounter = 0;
+    let gamesPlayed = 0;
+    for (gamesPlayed; gamesPlayed < 5; gamesPlayed++) {
+        let userChoice = prompt("Rock, paper, or scissors?");
+        scoreCounter += playGame(userChoice);
+    }
+    if(scoreCounter>0){
+        console.log(`Congratulations, you won! The end score was ${(scoreCounter+5)/2} - ${gamesPlayed - (scoreCounter+5)/2}.`);
+    }
+    else if(scoreCounter === 0){
+        console.log(`Wow, a tie game! The end score was ${(scoreCounter+5)/2} - ${gamesPlayed - (scoreCounter+5)/2}.`);
+    }
+    else{
+        console.log(`Tough luck, you lost. The end score was ${(scoreCounter+5)/2} - ${gamesPlayed - (scoreCounter+5)/2}.`);
+    }
+}
+playMatch();
