@@ -11,11 +11,7 @@ function computerPlay() {
 }
 
 function playGame(userChoice, computerChoice = computerPlay()) {
-    userChoice = userChoice.toLowerCase();
-    if(userChoice != "rock" && userChoice != "paper" && userChoice != "scissors"){
-        alert("That's not a valid choice! Try again.");
-        return;
-    }
+
     switch (evaluateWinner(userChoice, computerChoice)) {
         case 0:
             console.log(`You both chose ${userChoice}, so you tied!`);
@@ -26,6 +22,18 @@ function playGame(userChoice, computerChoice = computerPlay()) {
         case -1:
             console.log(`${computerChoice.charAt(0).toUpperCase()}${computerChoice.slice(1)} beats ${userChoice}, so you lost.`);
             return -1;
+    }
+}
+
+function getInput() {
+    while (true) {
+        let userChoice = prompt("Rock, paper, or scissors?");
+        userChoice = userChoice.toLowerCase();
+        if (userChoice != "rock" && userChoice != "paper" && userChoice != "scissors") {
+            alert("That's not a valid choice! Try again.");
+            continue;
+        }
+        return userChoice;
     }
 }
 
@@ -58,22 +66,18 @@ function playMatch() {
     let scoreCounter = 0;
     let gamesPlayed = 0;
     for (gamesPlayed; gamesPlayed < 5; gamesPlayed++) {
-        let userChoice = prompt("Rock, paper, or scissors?");
+        let userChoice = getInput();
         let score = playGame(userChoice);
-        if(score === undefined){
-            gamesPlayed--;
-            continue;
-        }
         scoreCounter += score;
     }
-    if(scoreCounter>0){
-        console.log(`Congratulations, you won! The end score was ${(scoreCounter+5)/2} - ${gamesPlayed - (scoreCounter+5)/2}.`);
+    if (scoreCounter > 0) {
+        console.log(`Congratulations, you won! The end score was ${(scoreCounter + 5) / 2} - ${gamesPlayed - (scoreCounter + 5) / 2}.`);
     }
-    else if(scoreCounter === 0){
-        console.log(`Wow, a tie game! The end score was ${(scoreCounter+5)/2} - ${gamesPlayed - (scoreCounter+5)/2}.`);
+    else if (scoreCounter === 0) {
+        console.log(`Wow, a tie game! The end score was ${(scoreCounter + 5) / 2} - ${gamesPlayed - (scoreCounter + 5) / 2}.`);
     }
-    else{
-        console.log(`Tough luck, you lost. The end score was ${(scoreCounter+5)/2} - ${gamesPlayed - (scoreCounter+5)/2}.`);
+    else {
+        console.log(`Tough luck, you lost. The end score was ${(scoreCounter + 5) / 2} - ${gamesPlayed - (scoreCounter + 5) / 2}.`);
     }
 }
 playMatch();
