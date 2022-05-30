@@ -1,10 +1,16 @@
+alert("First to 5 points wins the match!");
+let clickEventVar = function clickEvent(){
+    userChoice = this.textContent.toLowerCase();
+    playGame(userChoice);
+}
+
+let computerScore = 0;
+let userScore = 0;
 const choices = document.querySelectorAll("button");
 choices.forEach((button) => {
-    button.addEventListener("click", () => {
-        userChoice = button.textContent.toLowerCase();
-        playGame(userChoice);
-    });
+    button.addEventListener("click", clickEventVar);
 })
+const score = document.querySelector("#score");
 function computerPlay() {
     const selection = Math.floor(Math.random() * 3) + 1;
     switch (selection) {
@@ -17,23 +23,42 @@ function computerPlay() {
     }
 }
 
+
 function playGame(userChoice, computerChoice = computerPlay()) {
     switch (evaluateWinner(userChoice, computerChoice)) {
         case 0:
-            console.log(`You both chose ${userChoice}, so you tied!`);
+            alert(`The computer chose ${userChoice} too, so you tied!`);
             updateScore(0);
-            console.log(`${userScore} - ${computerScore}`);
-            return;
+            break;
         case 1:
-            console.log(`${userChoice.charAt(0).toUpperCase()}${userChoice.slice(1)} beats ${computerChoice}, so you won!`);
+            alert(`The computer chose ${computerChoice}, so you won!`);
             updateScore(1);
-            console.log(`${userScore} - ${computerScore}`);
-            return;
+            break;
         case -1:
-            console.log(`${computerChoice.charAt(0).toUpperCase()}${computerChoice.slice(1)} beats ${userChoice}, so you lost.`);
+            alert(`The computer chose ${computerChoice}, so you lost.`);
             updateScore(-1);
-            console.log(`${userScore} - ${computerScore}`);
-            return;
+            break;
+    }
+    score.textContent = (`${userScore} - ${computerScore}`);
+    checkEnd();
+}
+
+function checkEnd() {
+    let end = false;
+    if (userScore === 5 && computerScore === 5) {
+        alert("Wow! A tie game!");
+        end = true;
+    }
+    else if (userScore >= 5) {
+        alert("Congratulations! You won the match!");
+        end = true;
+    }
+    else if (computerScore >= 5) {
+        alert("So close! The computer wins this time!");
+        end = true;
+    }
+    if(end){
+        choices.forEach((button) => button.removeEventListener("click", clickEventVar));
     }
 }
 
@@ -66,14 +91,12 @@ function updateScore(result) {
         case 0:
             userScore += 0.5;
             computerScore += 0.5;
-            return;
+            break;
         case 1:
             userScore++;
-            return;
+            break;
         case -1:
             computerScore++;
-            return;
+            break;
     }
 }
-let userScore = 0;
-let computerScore = 0;
