@@ -30,7 +30,7 @@ function playGame(userChoice, computerChoice = computerPlay()) {
 }
 
 function evaluateWinner(userChoice, computerChoice) {
-    let scoreUpdate = 0
+    let scoreUpdate = 0;
     if (userChoice === computerChoice) {
         return scoreUpdate;
     }
@@ -56,7 +56,7 @@ function evaluateWinner(userChoice, computerChoice) {
 
 function playMatch() {
     let scoreCounter = 0;
-    let gamesPlayed = 0
+    let gamesPlayed = 0;
     for (gamesPlayed; gamesPlayed < 5; gamesPlayed++) {
         let userChoice = prompt("Rock, paper, or scissors?");
         let score = playGame(userChoice);
