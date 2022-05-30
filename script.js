@@ -12,6 +12,10 @@ function computerPlay() {
 
 function playGame(userChoice, computerChoice = computerPlay()) {
     userChoice = userChoice.toLowerCase();
+    if(userChoice != "rock" && userChoice != "paper" && userChoice != "scissors"){
+        alert("That's not a valid choice! Try again.");
+        return;
+    }
     switch (evaluateWinner(userChoice, computerChoice)) {
         case 0:
             console.log(`You both chose ${userChoice}, so you tied!`);
@@ -52,10 +56,15 @@ function evaluateWinner(userChoice, computerChoice) {
 
 function playMatch() {
     let scoreCounter = 0;
-    let gamesPlayed = 0;
+    let gamesPlayed = 0
     for (gamesPlayed; gamesPlayed < 5; gamesPlayed++) {
         let userChoice = prompt("Rock, paper, or scissors?");
-        scoreCounter += playGame(userChoice);
+        let score = playGame(userChoice);
+        if(score === undefined){
+            gamesPlayed--;
+            continue;
+        }
+        scoreCounter += score;
     }
     if(scoreCounter>0){
         console.log(`Congratulations, you won! The end score was ${(scoreCounter+5)/2} - ${gamesPlayed - (scoreCounter+5)/2}.`);
